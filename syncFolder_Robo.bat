@@ -1,6 +1,18 @@
 @echo off
-rem set src = "D:\User\Test\src"
-rem set dst = "D:\User\Test\dst"
+SETLOCAL ENABLEDELAYEDEXPANSION
 
-robocopy "D:\User\Test\src" "D:\User\Test\dst" /PURGE /MIR /R:1000000 /W:30
-pause
+set src="C:\Progetti\Sync2Folder\src"
+set dst="C:\Progetti\Sync2Folder\dst"
+set time_file="C:\Progetti\Sync2Folder\log.txt"
+
+:copy
+  echo !date! - !time! [SYNCRO] - Start syncro Mirroring >> %time_file%t
+  robocopy %src% %dst% /mir
+  echo !date! - !time! [SYNCRO] - End syncro Mirroring >> %time_file%
+goto loop
+
+:loop
+  ping -n 1 -w 500 127.0.0.1 > NUL
+goto copy
+
+exit
